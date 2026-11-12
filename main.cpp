@@ -135,6 +135,16 @@ int main()
 {
     vector<Edge> edges =
     {
+        // Removed original nodes 1 and 6.
+        //
+        // Renumbered the retained original nodes:
+        // original 0 -> new 0
+        // original 2 -> new 1
+        // original 3 -> new 2
+        // original 4 -> new 3
+        // original 5 -> new 4
+        //
+        // Added six new nodes numbered 5 through 10.
         {0, 1, 4},
         {0, 2, 7},
         {0, 7, 6},
