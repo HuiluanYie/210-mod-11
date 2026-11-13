@@ -156,6 +156,7 @@ void displayCampusNetwork(const Graph&);
 void runCampusDFS(Graph&, int);
 void runCampusBFS(Graph&, int);
 void shortestPath(const Graph&, int);
+void minimumSpanningTree(const Graph&);
 
 int main()
 {
@@ -204,6 +205,7 @@ int main()
     runCampusBFS(graph, 0);
 
     shortestPath(graph, 0);
+    minimumSpanningTree(graph);
 
     return 0;
 }
@@ -336,3 +338,6 @@ void shortestPath(const Graph& graph, int start)
             cout << distance[stop] << '\n';
     }
 }
+
+
+
