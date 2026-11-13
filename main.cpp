@@ -4,11 +4,10 @@
 #include <vector>
 #include <stack>
 #include <queue>
-#include <climits>
-#include <functional>
 using namespace std;
 
 const int SIZE = 11;
+const int INFINITY_VALUE = 1000000;
 
 // This application represents a university campus shuttle network.
 // Each node is a shuttle stop.
@@ -204,6 +203,8 @@ int main()
     runCampusDFS(graph, 0);
     runCampusBFS(graph, 0);
 
+    shortestPath(graph, 0);
+
     return 0;
 }
 
@@ -265,4 +266,73 @@ void runCampusBFS(Graph& graph, int start)
          << start << " (" << STOP_NAMES[start] << ")\n";
 
     graph.BFS(start);
+}
+
+void shortestPath(const Graph& graph, int start)
+{
+    // shortestPath() uses Dijkstra's algorithm to calculate
+    // the shortest travel time from the starting campus stop
+    // to every other campus stop.
+    // arguments: Graph object and starting stop
+    // returns: none
+
+    vector<int> distance(SIZE, INFINITY_VALUE);
+    vector<bool> visited(SIZE, false);
+
+    distance[start] = 0;
+
+    // Visit every vertex in the graph.
+    for (int count = 0; count < SIZE; count++)
+    {
+        int closest = -1;
+
+        // Find the unvisited stop with the shortest known distance.
+        for (int stop = 0; stop < SIZE; stop++)
+        {
+            if (!visited[stop] &&
+                (closest == -1 ||
+                 distance[stop] < distance[closest]))
+            {
+                closest = stop;
+            }
+        }
+
+        // Stop if the remaining vertices cannot be reached.
+        if (closest == -1 ||
+            distance[closest] == INFINITY_VALUE)
+        {
+            break;
+        }
+
+        visited[closest] = true;
+
+        // Update the distances to all connected stops.
+        for (Pair route : graph.adjList[closest])
+        {
+            int next_stop = route.first;
+            int travel_time = route.second;
+
+            int new_distance =
+                distance[closest] + travel_time;
+
+            if (!visited[next_stop] &&
+                new_distance < distance[next_stop])
+            {
+                distance[next_stop] = new_distance;
+            }
+        }
+    }
+
+    cout << "\nShortest path from node "
+        << start << ":\n";
+
+    for (int stop = 0; stop < SIZE; stop++)
+    {
+        cout << start << " -> " << stop << " : ";
+
+        if (distance[stop] == INFINITY_VALUE)
+            cout << "No route\n";
+        else
+            cout << distance[stop] << '\n';
+    }
 }
