@@ -339,5 +339,73 @@ void shortestPath(const Graph& graph, int start)
     }
 }
 
+void minimumSpanningTree(const Graph& graph)
+{
+    // minimumSpanningTree() uses Prim's algorithm to connect
+    // every campus stop using the minimum total travel time.
+    // arguments: Graph object
+    // returns: none
 
+    vector<int> parent(SIZE, -1);
+    vector<int> minimum_weight(SIZE, INFINITY_VALUE);
+    vector<bool> in_tree(SIZE, false);
 
+    // Start building the tree at node 0.
+    minimum_weight[0] = 0;
+
+    for (int count = 0; count < SIZE; count++)
+    {
+        int closest = -1;
+
+        // Find the vertex with the smallest available edge weight.
+        for (int vertex = 0; vertex < SIZE; vertex++)
+        {
+            if (!in_tree[vertex] &&
+                (closest == -1 ||
+                 minimum_weight[vertex] <
+                 minimum_weight[closest]))
+            {
+                closest = vertex;
+            }
+        }
+
+        // Stop if the remaining vertices cannot be reached.
+        if (closest == -1 ||
+            minimum_weight[closest] == INFINITY_VALUE)
+        {
+            break;
+        }
+
+        in_tree[closest] = true;
+
+        // Update the cheapest connection for adjacent vertices.
+        for (Pair route : graph.adjList[closest])
+        {
+            int next_vertex = route.first;
+            int weight = route.second;
+
+            if (!in_tree[next_vertex] &&
+                weight < minimum_weight[next_vertex])
+            {
+                parent[next_vertex] = closest;
+                minimum_weight[next_vertex] = weight;
+            }
+        }
+    }
+
+    cout << "\nMinimum Spanning Tree edges:\n";
+
+    for (int vertex = 1; vertex < SIZE; vertex++)
+    {
+        if (parent[vertex] != -1)
+        {
+            cout << "Edge from "
+                 << vertex
+                 << " to "
+                 << parent[vertex]
+                 << " with travel time: "
+                 << minimum_weight[vertex]
+                 << " minutes\n";
+        }
+    }
+}
