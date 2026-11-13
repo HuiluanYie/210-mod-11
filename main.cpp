@@ -4,6 +4,8 @@
 #include <vector>
 #include <stack>
 #include <queue>
+#include <climits>
+#include <functional>
 using namespace std;
 
 const int SIZE = 11;
@@ -154,6 +156,7 @@ public:
 void displayCampusNetwork(const Graph&);
 void runCampusDFS(Graph&, int);
 void runCampusBFS(Graph&, int);
+void shortestPath(const Graph&, int);
 
 int main()
 {
