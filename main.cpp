@@ -157,6 +157,7 @@ void runCampusDFS(Graph&, int);
 void runCampusBFS(Graph&, int);
 void shortestPath(const Graph&, int);
 void minimumSpanningTree(const Graph&);
+int mainMenu();
 
 int main()
 {
@@ -200,12 +201,44 @@ int main()
     // route's travel time in minutes.
     Graph graph(edges);
 
-    displayCampusNetwork(graph);
-    runCampusDFS(graph, 0);
-    runCampusBFS(graph, 0);
+    int choice;
 
-    shortestPath(graph, 0);
-    minimumSpanningTree(graph);
+    do
+    {
+        choice = mainMenu();
+
+        cout << '\n';
+
+        switch (choice)
+        {
+            case 1:
+                displayCampusNetwork(graph);
+                break;
+
+            case 2:
+                runCampusBFS(graph, 0);
+                break;
+
+            case 3:
+                runCampusDFS(graph, 0);
+                break;
+
+            case 4:
+                shortestPath(graph, 0);
+                break;
+
+            case 5:
+                minimumSpanningTree(graph);
+                break;
+
+            case 0:
+                cout << "Exiting program.\n";
+                break;
+        }
+
+        cout << '\n';
+
+    } while (choice != 0);
 
     return 0;
 }
@@ -408,4 +441,33 @@ void minimumSpanningTree(const Graph& graph)
                  << " minutes\n";
         }
     }
+}
+
+int mainMenu()
+{
+    // mainMenu() displays the campus shuttle network options,
+    // validates the selection, and returns the user's choice.
+    // arguments: none
+    // returns: selected menu option
+
+    int choice;
+
+    cout << "Campus Shuttle Network Menu:\n";
+    cout << "[1] Display campus shuttle network\n";
+    cout << "[2] Analyze service areas (BFS)\n";
+    cout << "[3] Plan maintenance inspection route (DFS)\n";
+    cout << "[4] Calculate shortest paths\n";
+    cout << "[5] Find Minimum Spanning Tree\n";
+    cout << "[0] Exit\n";
+    cout << "Enter your choice: ";
+
+    cin >> choice;
+
+    while (choice < 0 || choice > 5)
+    {
+        cout << "Invalid choice. Enter a number from 0 to 5: ";
+        cin >> choice;
+    }
+
+    return choice;
 }
